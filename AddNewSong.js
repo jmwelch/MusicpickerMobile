@@ -20,21 +20,57 @@ export default class AddNewSong extends Component<{}> {
       title: null,
       artist: null,
       key: null,
-      lyrics: null
+      lyrics: null,
+
+      title_error: null,
+      artist_error: null,
+      key_error: null,
+      lyrics_error: null,
     }
   }
 
   submitForm = () => {
-    this.state.realm.write(() => {
-      const new_song = this.state.realm.create('Song', {
-        title: this.state.title,
-        artist: this.state.artist,
-        key: this.state.key,
-        lyrics: this.state.lyrics,
+    if (this.validate()) {
+      this.state.realm.write(() => {
+        const new_song = this.state.realm.create('Song', {
+          title: this.state.title,
+          artist: this.state.artist,
+          key: this.state.key,
+          lyrics: this.state.lyrics,
+        });
       });
-    });
+      this.props.navigator.pop();
+    }
+  }
 
-    this.props.navigator.pop();
+  validate = () => {
+    var isValid = true
+    if (this.state.title  == null) {
+      this.setState({title_error: "Cannot be blank"})
+      isValid = false
+    } else {
+      this.setState({title_error: null})
+    }
+    if (this.state.artist == null) {
+      this.setState({artist_error: "Cannot be blank"})
+      isValid = false
+    } else {
+      this.setState({artist_error: null})
+    }
+    if (this.state.key    == null) {
+      this.setState({key_error: "Cannot be blank"})
+      isValid = false
+    } else {
+      this.setState({key_error: null})
+    }
+    if (this.state.lyrics == null) {
+      this.setState({lyrics_error: "Cannot be blank"})
+      isValid = false
+    } else {
+      this.setState({lyrics_error: null})
+    }
+
+    return isValid
   }
 
   render() {
@@ -50,6 +86,9 @@ export default class AddNewSong extends Component<{}> {
             value={this.state.title}
             onChangeText={(text) => this.setState({title: text})}
           />
+        <Text style={styles.error}>
+          {this.state.title_error}
+        </Text>
         </View>
         <View style={styles.rowInput}>
           <Text>
@@ -61,6 +100,9 @@ export default class AddNewSong extends Component<{}> {
             value={this.state.artist}
             onChangeText={(text) => this.setState({artist: text})}
           />
+        <Text style={styles.error}>
+          {this.state.artist_error}
+        </Text>
         </View>
         <View style={styles.rowInput}>
           <Text>
@@ -72,6 +114,9 @@ export default class AddNewSong extends Component<{}> {
             value={this.state.key}
             onChangeText={(text) => this.setState({key: text})}
           />
+        <Text style={styles.error}>
+          {this.state.key_error}
+        </Text>
         </View>
         <View style={styles.rowInput}>
           <Text>
@@ -83,6 +128,9 @@ export default class AddNewSong extends Component<{}> {
             value={this.state.lyrics}
             onChangeText={(text) => this.setState({lyrics: text})}
           />
+        <Text style={styles.error}>
+          {this.state.lyrics_error}
+        </Text>
         </View>
         <Button
           title="Submit"
@@ -118,5 +166,8 @@ const styles = StyleSheet.create({
   },
   rowInput: {
     marginBottom: 10
+  },
+  error: {
+    color: '#F00'
   }
 });
