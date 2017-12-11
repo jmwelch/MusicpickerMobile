@@ -46,7 +46,6 @@ export default class Homepage extends Component<{}> {
       component: SongsIndex,
       passProps: {
         realm: this.state.realm,
-        //songs: this.state.realm.objects('Song')
       }
     });
   }

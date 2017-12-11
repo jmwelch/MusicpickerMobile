@@ -33,7 +33,10 @@ class ListItem extends React.PureComponent {
           <View style={styles.rowContainer}>
             <View style={styles.words}>
               <Text style={styles.title}>{this.props.item.title}</Text>
-              <Text style={styles.price}>{this.props.item.artist}</Text>
+              <View>
+                <Text style={styles.price}>{this.props.item.artist}</Text>
+                <Text style={styles.price}>Key of {this.props.item.key}</Text>
+              </View>
             </View>
             <View>
               <Button
@@ -61,8 +64,20 @@ export default class SongsIndex extends Component<{}> {
     this.setState({realm: realm})
   }
 
-  onPressItem = (index) => {
-    console.log("Pressed row: " + index);
+  onPressItem = (song) => {
+    this.props.navigator.push({
+      title: 'Edit',
+      component: AddNewSong,
+      passProps: {
+        realm: this.state.realm,
+        song: song,
+        isEdit: true,
+        title: song.title,
+        artist: song.artist,
+        music_key: song.key,
+        lyrics: song.lyrics,
+      }
+    });
   };
 
   onPressAddNew = () => {
@@ -82,7 +97,7 @@ export default class SongsIndex extends Component<{}> {
       item={item}
       index={index}
       realm={this.state.realm}
-      onPressItem={this.onPressItem}
+      onPressItem={() => this.onPressItem(item)}
       onItemDelete={this.onItemDelete.bind(this, item)}
     />
   );
