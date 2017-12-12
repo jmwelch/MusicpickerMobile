@@ -15,6 +15,7 @@ import {
   Button
 } from 'react-native';
 import SongsIndex from './SongsIndex';
+import RandomSong from './RandomSong';
 
 const Realm = require('realm');
 
@@ -51,7 +52,13 @@ export default class Homepage extends Component<{}> {
   }
 
   startPressed = () => {
-
+    this.props.navigator.push({
+      title: 'Current Song',
+      component: RandomSong,
+      passProps: {
+        realm: this.state.realm,
+      }
+    });
   }
 
   render() {
