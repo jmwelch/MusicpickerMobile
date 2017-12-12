@@ -38,7 +38,7 @@ class ListItem extends React.PureComponent {
                 <Text style={styles.price}>Key of {this.props.item.key}</Text>
               </View>
             </View>
-            <View>
+            <View style={styles.deleteButton}>
               <Button
                 title='Delete'
                 onPress={this.deleteSong}
@@ -110,7 +110,7 @@ export default class SongsIndex extends Component<{}> {
           onPress={this.onPressAddNew}
         />
         <FlatList
-          data={this.state.realm.objects('Song')}
+          data={this.state.realm.objects('Song').sorted('title')}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
         />
@@ -131,6 +131,9 @@ const styles = StyleSheet.create({
   words: {
     flexGrow: 1
   },
+  deleteButton: {
+    flexGrow: 1
+  },
   title: {
     fontSize: 25,
     fontWeight: 'bold',
@@ -141,7 +144,6 @@ const styles = StyleSheet.create({
     color: '#656565'
   },
   rowContainer: {
-    flexDirection: 'column',
     marginBottom: 10,
     marginTop: 10,
     flex: 1,

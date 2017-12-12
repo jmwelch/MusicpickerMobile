@@ -8,6 +8,53 @@ import {
   ScrollView
 } from 'react-native';
 
+function DisplaySong(props) {
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Button
+          style={styles.shuffle}
+          title="Shuffle"
+          onPress={props.shufflePressed}
+        />
+        <Text style={styles.title}>
+          {props.song.title}
+        </Text>
+        <Text style={styles.artist}>
+          {props.song.artist}
+        </Text>
+        <Text style={styles.key}>
+          Key of: {props.song.key}
+        </Text>
+        <Text style={styles.lyrics}>
+          {props.song.lyrics}
+        </Text>
+      </View>
+    </ScrollView>
+  )
+}
+
+function NoSong() {
+  return (
+    <View style={[styles.container, styles.content]}>
+      <Text>
+        No songs
+      </Text>
+    </View>
+  )
+}
+
+function ShuffleDisplay(props) {
+  if (props.song) {
+    return <DisplaySong
+            song={props.song}
+            shufflePressed={props.shufflePressed}
+           />
+  } else {
+    return <NoSong />
+  }
+}
+
 export default class RandomSong extends Component<{}> {
   constructor(props) {
     super(props);
@@ -19,7 +66,11 @@ export default class RandomSong extends Component<{}> {
 
   getRandomSong = () => {
     var songs = this.props.realm.objects('Song');
-    return songs[Math.floor(Math.random()*songs.length)]
+    if (songs.length > 0) {
+      return songs[Math.floor(Math.random()*songs.length)]
+    } else {
+      return null
+    }
   }
 
   shufflePressed = () => {
@@ -28,35 +79,16 @@ export default class RandomSong extends Component<{}> {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.content}>
-          <Button
-            style={styles.shuffle}
-            title="Shuffle"
-            onPress={this.shufflePressed}
-          />
-          <Text style={styles.title}>
-            {this.state.song.title}
-          </Text>
-          <Text style={styles.artist}>
-            {this.state.song.artist}
-          </Text>
-          <Text style={styles.key}>
-            Key of: {this.state.song.key}
-          </Text>
-          <Text style={styles.lyrics}>
-            {this.state.song.lyrics}
-          </Text>
-        </View>
-      </ScrollView>
+      <ShuffleDisplay
+        song={this.state.song}
+        shufflePressed={this.shufflePressed}
+      />
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
-    paddingTop: 30,
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: '#F5FCFF',
@@ -69,16 +101,16 @@ const styles = StyleSheet.create({
   shuffle: {
   },
   title: {
-    fontSize: 60
+    fontSize: 30
   },
   artist: {
-    fontSize: 40
+    fontSize: 20
   },
   key: {
-    fontSize: 20,
+    fontSize: 10,
     marginBottom: 30
   },
   lyrics: {
-    fontSize: 30
+    fontSize: 15
   }
 })

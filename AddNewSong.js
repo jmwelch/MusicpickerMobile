@@ -7,7 +7,8 @@ import {
   Button,
   TouchableHighlight,
   FlatList,
-  TextInput
+  TextInput,
+  ScrollView
 } from 'react-native';
 
 const Realm = require('realm');
@@ -82,69 +83,71 @@ export default class AddNewSong extends Component<{}> {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.rowInput}>
-          <Text>
-            Title
+      <ScrollView style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.rowInput}>
+            <Text>
+              Title
+            </Text>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Title"
+              value={this.state.title}
+              onChangeText={(text) => this.setState({title: text})}
+            />
+          <Text style={styles.error}>
+            {this.state.title_error}
           </Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Title"
-            value={this.state.title}
-            onChangeText={(text) => this.setState({title: text})}
-          />
-        <Text style={styles.error}>
-          {this.state.title_error}
-        </Text>
-        </View>
-        <View style={styles.rowInput}>
-          <Text>
-            Artist
+          </View>
+          <View style={styles.rowInput}>
+            <Text>
+              Artist
+            </Text>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Artist"
+              value={this.state.artist}
+              onChangeText={(text) => this.setState({artist: text})}
+            />
+          <Text style={styles.error}>
+            {this.state.artist_error}
           </Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Artist"
-            value={this.state.artist}
-            onChangeText={(text) => this.setState({artist: text})}
-          />
-        <Text style={styles.error}>
-          {this.state.artist_error}
-        </Text>
-        </View>
-        <View style={styles.rowInput}>
-          <Text>
-            Key
+          </View>
+          <View style={styles.rowInput}>
+            <Text>
+              Key
+            </Text>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Key"
+              value={this.state.key}
+              onChangeText={(text) => this.setState({key: text})}
+            />
+          <Text style={styles.error}>
+            {this.state.key_error}
           </Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Key"
-            value={this.state.key}
-            onChangeText={(text) => this.setState({key: text})}
-          />
-        <Text style={styles.error}>
-          {this.state.key_error}
-        </Text>
-        </View>
-        <View style={styles.rowInput}>
-          <Text>
-            Lyrics
+          </View>
+          <View style={styles.rowInput}>
+            <Text>
+              Lyrics
+            </Text>
+            <TextInput
+              style={[styles.searchInput, styles.lyricsInput]}
+              multiline={true}
+              placeholder="Lyrics"
+              value={this.state.lyrics}
+              onChangeText={(text) => this.setState({lyrics: text})}
+            />
+          <Text style={styles.error}>
+            {this.state.lyrics_error}
           </Text>
-          <TextInput
-            style={[styles.searchInput, styles.lyricsInput]}
-            multiline={true}
-            placeholder="Lyrics"
-            value={this.state.lyrics}
-            onChangeText={(text) => this.setState({lyrics: text})}
+          </View>
+          <Button
+            title="Submit"
+            onPress={this.submitForm}
           />
-        <Text style={styles.error}>
-          {this.state.lyrics_error}
-        </Text>
         </View>
-        <Button
-          title="Submit"
-          onPress={this.submitForm}
-        />
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -153,8 +156,11 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 50,
     padding: 30,
+    paddingTop: 0,
     backgroundColor: '#F5FCFF',
     flex: 1,
+  },
+  content: {
     justifyContent: 'flex-start'
   },
   searchInput: {
