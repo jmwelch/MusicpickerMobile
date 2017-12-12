@@ -154,7 +154,7 @@ export default class AddNewSong extends Component<{}> {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
+    marginTop: 20,
     padding: 30,
     paddingTop: 0,
     backgroundColor: '#F5FCFF',

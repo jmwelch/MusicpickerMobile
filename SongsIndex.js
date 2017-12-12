@@ -110,6 +110,7 @@ export default class SongsIndex extends Component<{}> {
           onPress={this.onPressAddNew}
         />
         <FlatList
+          contentContainerStyle={{marginTop: -70}}
           data={this.state.realm.objects('Song').sorted('title')}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   deleteButton: {
-    flexGrow: 1
+    //flexGrow: 1
   },
   title: {
     fontSize: 25,
